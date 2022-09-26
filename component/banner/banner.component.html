@@ -1,3 +1,4 @@
-<section class="banner r-center">
-  <img class="cover" src="./assets/image/banner/banner_banner02.png" />
-</section>
+<!-- 廣告欄 -->
+<div class="banner">
+  <img *ngIf="viewModel.current" class="a-center" [src]="viewModel.current" onerror="this.src=''"/>
+</div>
