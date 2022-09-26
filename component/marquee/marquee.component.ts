@@ -31,6 +31,10 @@ export class MarqueeComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(async () => {
 
+      if (!(this.viewModel instanceof MarqueeViewModel)) {
+        return
+      }
+
       if (this.viewModel.animationName === MarqueeAnimationName.Slide) {
         // 如果運作中
 
