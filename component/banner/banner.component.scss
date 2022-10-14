@@ -1,0 +1,25 @@
+/* *** banner 比例應從外部調整 *** */
+/* *** 寬度預設100%，高度自動 *** */
+/* *** 顏色設定預設為淺色 *** */
+
+$width: var(--banner-width, 100%);
+$height: var(--banner-height, auto);
+$bg-color: var(--prime-light, white);
+
+.banner {
+  position: relative;
+  background: $bg-color;
+  width: $width;
+  padding-top: $height;
+
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+}

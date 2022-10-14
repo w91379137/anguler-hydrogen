@@ -1,4 +1,8 @@
 <!-- 廣告欄 -->
-<section class="banner r-center">
-  <img *ngIf="viewModel.current" class="cover" [src]="viewModel.current" onerror="this.src=''"/>
+<section class="banner">
+  <img
+    *ngIf="viewModel.current"
+    [src]="viewModel.current"
+    onerror="this.src=''"
+  />
 </section>
