@@ -13,7 +13,7 @@ export class BannerComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   @Input()
-  public viewModel: BannerViewModel;
+  public viewModel: BannerViewModel | undefined;
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 

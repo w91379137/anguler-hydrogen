@@ -1,7 +1,7 @@
 <!-- 廣告欄 -->
 <section class="banner">
   <img
-    *ngIf="viewModel.current"
+    *ngIf="viewModel?.current"
     [src]="viewModel.current"
     onerror="this.src=''"
   />
