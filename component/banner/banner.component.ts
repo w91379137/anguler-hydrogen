@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { BannerViewModel } from './banner.viewmodel';
 
 @Component({
-  selector: 'app-banner',
+  selector: 'h2-banner',
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss']
 })
