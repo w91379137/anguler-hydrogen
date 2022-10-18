@@ -6,6 +6,8 @@ import { ApiService } from './service/api/api.service';
 import { BannerComponent } from './component/banner/banner.component';
 import { MarqueeComponent } from './component/marquee/marquee.component';
 import { PointFmtPipe } from './pipe/PointFmt/point-fmt.pipe';
+import { AlertComponent } from './component/alert/alert.component';
+import { MessageBoxService } from './service/message-box/message-box.service';
 
 
 @NgModule({
@@ -13,6 +15,7 @@ import { PointFmtPipe } from './pipe/PointFmt/point-fmt.pipe';
     BannerComponent,
     MarqueeComponent,
     PointFmtPipe,
+    AlertComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +24,7 @@ import { PointFmtPipe } from './pipe/PointFmt/point-fmt.pipe';
   providers: [
     StorageService,
     ApiService,
+    MessageBoxService,
   ],
   exports: [
     BannerComponent,

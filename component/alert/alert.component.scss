@@ -1,0 +1,16 @@
+$title-font-size: var(--pop-title-size);
+$hint-font-size: var(--pop-hint-size);
+
+.title {
+  width: 100%;
+  font-size: $title-font-size;
+  font-weight: 900;
+  text-align: center;
+}
+
+.message {
+  width: 100%;
+  font-size: $hint-font-size;
+  font-weight: 900;
+  text-align: center;
+}
