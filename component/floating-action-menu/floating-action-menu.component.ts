@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { FloatingActionViewModel } from './floating-action-menu.viewmodel';
+import { FloatingActionMenuItemViewModel, FloatingActionMenuViewModel } from './floating-action-menu.viewmodel';
 
 @Component({
   selector: 'h2-floating-action-menu',
@@ -12,7 +12,10 @@ export class FloatingActionMenuComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   @Input()
-  public viewModel: FloatingActionViewModel | undefined;
+  public viewModel: FloatingActionMenuViewModel | undefined;
+
+  @Output()
+  buttonClicked = new EventEmitter<FloatingActionMenuItemViewModel>();
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
@@ -27,5 +30,12 @@ export class FloatingActionMenuComponent implements OnInit, OnDestroy {
   }
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+  // action
+  async onMainButtonClicked() {
+    this.viewModel.isOpen = !this.viewModel.isOpen
+  }
 
+  async onChildButtonClicked(vm: FloatingActionMenuItemViewModel) {
+    this.buttonClicked.emit(vm)
+  }
 }

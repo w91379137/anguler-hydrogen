@@ -1,4 +1,15 @@
 
-<button>主按鈕</button>
+<ng-container *ngIf="viewModel">
 
+  <button (click)="onMainButtonClicked()">主按鈕</button>
 
+  <ng-container *ngIf="viewModel.isOpen">
+
+    <ng-container *ngFor="let item of viewModel.itemList">
+      <br>
+      <button (click)="onChildButtonClicked(item)">{{item.title}}</button>
+    </ng-container>
+
+  </ng-container>
+
+</ng-container>
