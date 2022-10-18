@@ -3,6 +3,6 @@
   <img
     *ngIf="viewModel?.current"
     [src]="viewModel.current"
-    onerror="this.src=''"
+    (error)="onImgError($event)"
   />
 </section>

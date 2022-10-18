@@ -52,5 +52,16 @@ export class BannerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+  // action
+  onImgError(event) {
 
+    // 圖片錯誤
+    // https://stackoverflow.com/questions/42135268/angular2-onerror-image-binding
+
+    if (!(this.viewModel instanceof BannerViewModel)) {
+      return
+    }
+
+    event.target.src = this.viewModel.default
+  }
 }
