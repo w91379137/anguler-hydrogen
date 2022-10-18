@@ -8,6 +8,7 @@ import { MarqueeComponent } from './component/marquee/marquee.component';
 import { PointFmtPipe } from './pipe/PointFmt/point-fmt.pipe';
 import { AlertComponent } from './component/alert/alert.component';
 import { MessageBoxService } from './service/message-box/message-box.service';
+import { FloatingActionMenuComponent } from './component/floating-action-menu/floating-action-menu.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { MessageBoxService } from './service/message-box/message-box.service';
     MarqueeComponent,
     PointFmtPipe,
     AlertComponent,
+    FloatingActionMenuComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { MessageBoxService } from './service/message-box/message-box.service';
     BannerComponent,
     MarqueeComponent,
     PointFmtPipe,
+    FloatingActionMenuComponent,
   ]
 })
 export class AngulerHydrogenModule { }

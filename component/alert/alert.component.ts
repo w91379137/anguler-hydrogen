@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AlertViewModel } from './alert.viewmodel';
 
 @Component({
-  selector: 'app-alert',
+  selector: 'h2-alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss']
 })
