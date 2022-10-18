@@ -28,4 +28,4 @@ import { PointFmtPipe } from './pipe/PointFmt/point-fmt.pipe';
     PointFmtPipe,
   ]
 })
-export class YcAngulerShareModule { }
+export class AngulerHydrogenModule { }
