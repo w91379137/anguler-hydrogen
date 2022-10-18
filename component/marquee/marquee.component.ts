@@ -5,7 +5,7 @@ import { delay } from '../../service/const/tool';
 import { MarqueeAnimationName, MarqueeViewModel } from './marquee.viewmodel';
 
 @Component({
-  selector: 'app-marquee',
+  selector: 'h2-marquee',
   templateUrl: './marquee.component.html',
   styleUrls: ['./marquee.component.scss']
 })
