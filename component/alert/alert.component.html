@@ -12,14 +12,8 @@
   <!-- 確定 取消 -->
   <section>
     <div class="alert-btn-box">
-      <button class="alert-btn--type1" (click)="onConfirmClicked()">
-        確定
-      </button>
-      <button
-        *ngIf="viewModel.mode === 0"
-        class="alert-btn--type2"
-        (click)="onCancelClicked()"
-      >
+      <button (click)="onConfirmClicked()">確定</button>
+      <button *ngIf="viewModel.mode === 0" (click)="onCancelClicked()">
         取消
       </button>
     </div>

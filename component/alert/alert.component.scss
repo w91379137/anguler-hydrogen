@@ -6,21 +6,8 @@ $hint-font-size: var(--alert-hint-size, 0.6rem);
 $background: var(--alert-background, white);
 
 // 按鈕樣式設定：基本樣式
-$btn-border: var(--alert-btn-border, 1px solid black);
+$btn-border: var(--alert-btn-border, 0px solid black);
 $btn-border-radius: var(--alert-btn-border, 8px);
-
-// 按鈕樣式設定：自訂義樣式
-$btn-type1-background: var(--alert-btn-background--type1, gray);
-$btn-type1-color: var(--alert-btn-color--type1, white);
-$btn-type1-border: var(--alert-btn-border--type1, 1px solid black);
-
-$btn-type2-background: var(--alert-btn-background--type2, gray);
-$btn-type2-color: var(--alert-btn-color--type2, white);
-$btn-type2-border: var(--alert-btn-border--type2, 1px solid black);
-
-$btn-type3-background: var(--alert-btn-background--type3, gray);
-$btn-type3-color: var(--alert-btn-color--type3, white);
-$btn-type3-border: var(--alert-btn-border--type3, 1px solid black);
 
 .h-alert {
   width: 100%;
@@ -36,6 +23,7 @@ section {
   font-size: $title-font-size;
   font-weight: 900;
   text-align: center;
+  color: var(--second);
 }
 
 .message {
@@ -55,9 +43,12 @@ section {
   button {
     all: unset;
     padding: 0.5rem;
-    background: transparent;
+    background: var(--gradient-second--multi, black);
     border: $btn-border;
     border-radius: $btn-border-radius;
+    color: var(--second-light);
+    text-shadow: 0 0 2px white;
+    box-shadow: 1px 1px 2px var(--second-deep);
     font-size: 0.8rem;
     text-align: center;
     flex: 1 1 auto;
@@ -70,20 +61,5 @@ section {
 
   button:active {
     filter: contrast(1.2);
-  }
-
-  .alert-btn--type1 {
-    background: $btn-type1-background;
-    color: $btn-type1-color;
-  }
-
-  .alert-btn--type2 {
-    background: $btn-type2-background;
-    color: $btn-type2-color;
-  }
-
-  .alert-btn--type3 {
-    background: $btn-type3-background;
-    color: $btn-type3-color;
   }
 }
