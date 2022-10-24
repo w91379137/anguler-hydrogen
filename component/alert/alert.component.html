@@ -1,30 +1,27 @@
+<main class="h-alert">
+  <!-- 標題名稱 -->
+  <section>
+    <div class="title">{{ viewModel.title }}</div>
+  </section>
 
-<!-- 標題名稱 -->
-<section class="block">
-  <div class="title">{{ viewModel.title }}</div>
-
-</section>
-
-<!-- 選擇項目 -->
-<section class="block">
-  <div class="btn-box">
+  <!-- 提示資訊 -->
+  <section>
     <div class="message">{{ viewModel.message }}</div>
-  </div>
-</section>
+  </section>
 
-<!-- 確定 取消 -->
-<section class="block">
-  <div class="btn-box btn-flex">
-    <button
-      class="btn btn-border-prime-dark"
-      (click)="onConfirmClicked()"
-    >
-      確定
-    </button>
-    <button *ngIf="viewModel.mode === 0"
-      class="btn btn-border-prime-dark"
-      (click)="onCancelClicked()">
-      取消
-    </button>
-  </div>
-</section>
+  <!-- 確定 取消 -->
+  <section>
+    <div class="alert-btn-box">
+      <button class="alert-btn--type1" (click)="onConfirmClicked()">
+        確定
+      </button>
+      <button
+        *ngIf="viewModel.mode === 0"
+        class="alert-btn--type2"
+        (click)="onCancelClicked()"
+      >
+        取消
+      </button>
+    </div>
+  </section>
+</main>
