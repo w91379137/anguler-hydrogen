@@ -1,15 +1,20 @@
-
 <ng-container *ngIf="viewModel">
-
-  <button (click)="onMainButtonClicked()">主按鈕</button>
-
-  <ng-container *ngIf="viewModel.isOpen">
-
-    <ng-container *ngFor="let item of viewModel.itemList">
-      <br>
-      <button (click)="onChildButtonClicked(item)">{{item.title}}</button>
-    </ng-container>
-
-  </ng-container>
-
+  <main class="h-fam h-fam--lt">
+    <section class="h-fam-container h-fam--down">
+      <div class="h-fam-main">
+        <button (click)="onMainButtonClicked()">主按鈕</button>
+      </div>
+      <div class="h-fam-second">
+        <ng-container *ngIf="viewModel.isOpen">
+          <ng-container *ngFor="let item of viewModel.itemList">
+            <button (click)="onChildButtonClicked(item)">
+              {{ item.title }}
+            </button>
+          </ng-container>
+        </ng-container>
+      </div>
+    </section>
+  </main>
 </ng-container>
+
+<!-- 位置 block > 主體 block > 主按鈕 + 次要 block > 次要按鈕組 -->

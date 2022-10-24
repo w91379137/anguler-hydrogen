@@ -1,0 +1,65 @@
+.h-fam {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.h-fam-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    all: unset;
+    display: block;
+    background: rgba($color: #000000, $alpha: 0.8);
+    border-radius: 500px;
+    border: 1px solid black;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    margin: 2px;
+  }
+}
+
+/* *** 浮動按鈕的位置設定 *** */
+.h-fam.h-fam--lt {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.h-fam.h-fam--rt {
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+.h-fam.h-fam--lb {
+  left: 0.5rem;
+  bottom: 0.5rem;
+}
+
+.h-fam.h-fam--rb {
+  right: 0.5rem;
+  bottom: 0.5rem;
+}
+
+/* *** 展開方向 *** */
+.h-fam-container.h-fam--down,
+.h-fam-container.h-fam--down.h-fam-second {
+  flex-direction: column;
+}
+
+.h-fam-container.h-fam--up,
+.h-fam-container.h-fam--up.h-fam-second {
+  flex-direction: column-reverse;
+}
+
+.h-fam-container.h-fam--left,
+.h-fam-container.h-fam--left.h-fam-second {
+  flex-direction: row-reverse;
+}
+
+.h-fam-container.h-fam--right,
+.h-fam-container.h-fam--right.h-fam-second {
+  flex-direction: row;
+}
