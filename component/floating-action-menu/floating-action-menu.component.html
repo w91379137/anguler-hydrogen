@@ -2,7 +2,7 @@
   <main class="h-fam h-fam--lt">
     <section class="h-fam-container h-fam--down">
       <div class="h-fam-main">
-        <button (click)="onMainButtonClicked()">主按鈕</button>
+        <button (click)="onMainButtonClicked()">{{ viewModel.mainItem.title }}</button>
       </div>
       <div class="h-fam-second">
         <ng-container *ngIf="viewModel.isOpen">

@@ -9,6 +9,8 @@ import { PointFmtPipe } from './pipe/PointFmt/point-fmt.pipe';
 import { AlertComponent } from './component/alert/alert.component';
 import { MessageBoxService } from './service/message-box/message-box.service';
 import { FloatingActionMenuComponent } from './component/floating-action-menu/floating-action-menu.component';
+import { DragContainerComponent } from './component/drag-container/drag-container.component';
+import { YcAngulerShareMaterialModule } from '../yc-anguler-share-material/yc-anguler-share-material.module';
 
 
 @NgModule({
@@ -18,10 +20,12 @@ import { FloatingActionMenuComponent } from './component/floating-action-menu/fl
     PointFmtPipe,
     AlertComponent,
     FloatingActionMenuComponent,
+    DragContainerComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
+    YcAngulerShareMaterialModule,
   ],
   providers: [
     StorageService,
@@ -33,6 +37,7 @@ import { FloatingActionMenuComponent } from './component/floating-action-menu/fl
     MarqueeComponent,
     PointFmtPipe,
     FloatingActionMenuComponent,
+    DragContainerComponent,
   ]
 })
 export class AngulerHydrogenModule { }

@@ -1,0 +1,9 @@
+
+<div style="position: absolute; top: 0px; left: 0px;" cdkDrag
+  (cdkDragStarted)="onDragStarted()"
+  (cdkDragReleased)="onDragEnded()"
+>
+  <div [ngStyle]="{'pointer-events': contentClickable ? 'auto' : 'none'}">
+    <ng-content></ng-content>
+  </div>
+</div>
