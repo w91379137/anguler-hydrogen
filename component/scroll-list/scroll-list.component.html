@@ -1,8 +1,19 @@
 <ng-container *ngIf="viewModel">
 
   <ng-container *ngFor="let item of viewModel.itemList">
-    {{ item | json}}
+    <!-- {{ item | json}} -->
+    <div (click)="onCardClicked(item)">
+      <ng-container
+        [ngTemplateOutlet]="card"
+        [ngTemplateOutletContext]="item"
+      ></ng-container>
+    </div>
   </ng-container>
 
 </ng-container>
+
+<ng-template #card class="card" let-id="id" let-icon="icon" let-title="title" let-content="content">
+  <label>{{ title }}</label> <br>
+  <label>{{ content }}</label>
+</ng-template>
 

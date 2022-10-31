@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ScrollListViewModel } from './scroll-list.viewmodel';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmodel';
 
 @Component({
   selector: 'h2-scroll-list',
@@ -11,12 +11,18 @@ export class ScrollListComponent implements OnInit {
   @Input()
   public viewModel: ScrollListViewModel;
 
+  @Output()
+  cardClicked = new EventEmitter<ScrollItemViewModel>();
+
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
-
+  onCardClicked(item: ScrollItemViewModel) {
+    this.cardClicked.emit(item)
+  }
 }
