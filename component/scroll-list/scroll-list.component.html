@@ -1,0 +1,8 @@
+<ng-container *ngIf="viewModel">
+
+  <ng-container *ngFor="let item of viewModel.itemList">
+    {{ item | json}}
+  </ng-container>
+
+</ng-container>
+

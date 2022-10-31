@@ -11,6 +11,7 @@ import { MessageBoxService } from './service/message-box/message-box.service';
 import { FloatingActionMenuComponent } from './component/floating-action-menu/floating-action-menu.component';
 import { DragContainerComponent } from './component/drag-container/drag-container.component';
 import { YcAngulerShareMaterialModule } from '../yc-anguler-share-material/yc-anguler-share-material.module';
+import { ScrollListComponent } from './component/scroll-list/scroll-list.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { YcAngulerShareMaterialModule } from '../yc-anguler-share-material/yc-an
     AlertComponent,
     FloatingActionMenuComponent,
     DragContainerComponent,
+    ScrollListComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { YcAngulerShareMaterialModule } from '../yc-anguler-share-material/yc-an
     PointFmtPipe,
     FloatingActionMenuComponent,
     DragContainerComponent,
+    ScrollListComponent,
   ]
 })
 export class AngulerHydrogenModule { }
