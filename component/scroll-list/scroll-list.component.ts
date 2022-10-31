@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { interval, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmodel';
 
 @Component({
@@ -6,7 +8,9 @@ import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmode
   templateUrl: './scroll-list.component.html',
   styleUrls: ['./scroll-list.component.scss']
 })
-export class ScrollListComponent implements OnInit, AfterViewInit {
+export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  private ngUnsubscribe = new Subject<void>();
 
   @ViewChild('card_container')
   container: ElementRef
@@ -35,6 +39,29 @@ export class ScrollListComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.onScrolled()
     }, 1);
+    interval(300)
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(async () => {
+
+      if (!(this.viewModel instanceof ScrollListViewModel)) {
+        return
+      }
+      if (this.viewModel.target === -1) {
+        return
+      }
+      let idStr = this.viewModel.target.toString()
+      let card = this.cardList.find(ele => ele.nativeElement.id === idStr)
+      if (card) {
+        card.nativeElement.scrollIntoView({behavior:"smooth"});
+      }
+      this.viewModel.target = -1
+
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====

@@ -4,11 +4,11 @@ export function demoScrollListViewModel(): ScrollListViewModel {
 
   const result = new ScrollListViewModel()
 
-  for (let index = 0; index < 20; index++) {
+  for (let index = 0; index < 30; index++) {
     const item = new ScrollItemViewModel()
     item.id = index
-    item.title = index.toString()
-    item.content = index.toString()
+    item.title = '標題' + index.toString()
+    item.content = '內文' + index.toString()
     result.itemList.push(item)
   }
 
