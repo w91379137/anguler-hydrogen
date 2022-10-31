@@ -1,14 +1,18 @@
 <ng-container *ngIf="viewModel">
 
-  <ng-container *ngFor="let item of viewModel.itemList">
-    <!-- {{ item | json}} -->
-    <div (click)="onCardClicked(item)">
-      <ng-container
-        [ngTemplateOutlet]="card"
-        [ngTemplateOutletContext]="item"
-      ></ng-container>
-    </div>
-  </ng-container>
+  <div #card_container style="width: 100%; height: 100%; overflow: auto;"
+    (scroll)="onScrolled()"
+  >
+    <ng-container *ngFor="let item of viewModel.itemList">
+      <!-- {{ item | json}} -->
+      <div #card_div [id]="item.id" (click)="onCardClicked(item)">
+        <ng-container
+          [ngTemplateOutlet]="card"
+          [ngTemplateOutletContext]="item"
+        ></ng-container>
+      </div>
+    </ng-container>
+  </div>
 
 </ng-container>
 
@@ -16,4 +20,3 @@
   <label>{{ title }}</label> <br>
   <label>{{ content }}</label>
 </ng-template>
-
