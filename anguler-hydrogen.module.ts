@@ -12,18 +12,29 @@ import { FloatingActionMenuComponent } from './component/floating-action-menu/fl
 import { DragContainerComponent } from './component/drag-container/drag-container.component';
 import { YcAngulerShareMaterialModule } from '../yc-anguler-share-material/yc-anguler-share-material.module';
 import { ScrollListComponent } from './component/scroll-list/scroll-list.component';
+import { HoverDirective } from './directive/hover/hover.directive';
 
+let component = [
+  BannerComponent,
+  MarqueeComponent,
+  AlertComponent,
+  FloatingActionMenuComponent,
+  DragContainerComponent,
+  ScrollListComponent,
+]
+
+let directive = [
+  HoverDirective,
+]
+
+let pipe = [
+  PointFmtPipe,
+]
+
+let allDeclaration = [...component, ...directive, ...pipe]
 
 @NgModule({
-  declarations: [
-    BannerComponent,
-    MarqueeComponent,
-    PointFmtPipe,
-    AlertComponent,
-    FloatingActionMenuComponent,
-    DragContainerComponent,
-    ScrollListComponent,
-  ],
+  declarations: allDeclaration,
   imports: [
     CommonModule,
     HttpClientModule,
@@ -34,13 +45,6 @@ import { ScrollListComponent } from './component/scroll-list/scroll-list.compone
     ApiService,
     MessageBoxService,
   ],
-  exports: [
-    BannerComponent,
-    MarqueeComponent,
-    PointFmtPipe,
-    FloatingActionMenuComponent,
-    DragContainerComponent,
-    ScrollListComponent,
-  ]
+  exports: allDeclaration,
 })
 export class AngulerHydrogenModule { }
