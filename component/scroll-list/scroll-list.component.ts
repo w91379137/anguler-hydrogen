@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { interval, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, distinctUntilKeyChanged, takeUntil } from 'rxjs/operators';
 import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmodel';
 
 @Component({
@@ -20,7 +20,7 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
   @ViewChild('card_container')
-  container: ElementRef
+  container: ElementRef;
 
   @ViewChildren('card_div')
   cardList: QueryList<ElementRef>;
@@ -29,6 +29,8 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
   public viewModel: ScrollListViewModel;
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+
+  private scrolled$ = new Subject<number[]>();
 
   @Output()
   scrolled = new EventEmitter<number[]>();
@@ -41,13 +43,33 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
+    this.scrolled$
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .pipe(distinctUntilChanged((a, b) => {
+      if (a.length != b.length) {
+        return false;
+      }
+      a.forEach((ele, idx) => {
+        if (ele !== b[idx]) {
+          return false;
+        }
+      });
+      return true;
+    }))
+    .subscribe(this.scrolled)
+  }
 
+  ngOnChanges() {
+    setTimeout(() => {
+      this.onScrolled();
+    }, 1);
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.onScrolled()
+      this.onScrolled();
     }, 1);
+
     interval(300)
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(async () => {
@@ -88,13 +110,12 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
 
       let childRect: DOMRect = card.nativeElement.getBoundingClientRect()
       if (intersectRect(parentRect, childRect)) {
-
         let id = parseInt(card.nativeElement.id)
-        // console.log('取得', id, top, bottom)
+        // console.log('取得', id, parentRect, childRect)
         show.push(id)
       }
     }
-    this.scrolled.emit(show)
+    this.scrolled$.next(show);
   }
 
   onCardClicked(item: ScrollItemViewModel) {
@@ -103,8 +124,9 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
 }
 
 function intersectRect(rect1: DOMRect, rect2: DOMRect) {
-  return !(rect2.left > rect1.right ||
-           rect2.right < rect1.left ||
-           rect2.top > rect1.bottom ||
-           rect2.bottom < rect1.top);
+  // 邊界重疊不算
+  return !(rect2.left >= rect1.right ||
+           rect2.right <= rect1.left ||
+           rect2.top >= rect1.bottom ||
+           rect2.bottom <= rect1.top);
 }
