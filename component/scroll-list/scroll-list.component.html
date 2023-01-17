@@ -7,7 +7,7 @@
       <!-- {{ item | json}} -->
       <div #card_div [id]="item.id" (click)="onCardClicked(item)">
         <ng-container
-          [ngTemplateOutlet]="card"
+          [ngTemplateOutlet]="customCard ? customCard : defaultCard"
           [ngTemplateOutletContext]="item"
         ></ng-container>
       </div>
@@ -16,7 +16,9 @@
 
 </ng-container>
 
-<ng-template #card class="card" let-id="id" let-icon="icon" let-title="title" let-content="content">
+<ng-template
+  #defaultCard
+  class="card" let-id="id" let-icon="icon" let-title="title" let-content="content">
   <label class="title">{{ title }}</label> <br>
   <label class="content">{{ content }}</label>
 </ng-template>
