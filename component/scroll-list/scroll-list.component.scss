@@ -11,3 +11,15 @@
 .content {
   font-size: 15px;
 }
+
+.scroll-view {
+  width: 100%;
+  height: 15rem;
+  overflow: auto;
+}
+
+.scroll-view--container {
+  width: 100%;
+  padding: var(--padding-small);
+  padding-left:var(--padding-normal);
+}
