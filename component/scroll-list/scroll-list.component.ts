@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { interval, Subject } from 'rxjs';
-import { distinctUntilChanged, distinctUntilKeyChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { intersectRect } from '../../util/geometry';
 import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmodel';
 
 @Component({
@@ -121,12 +122,4 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
   onCardClicked(item: ScrollItemViewModel) {
     this.cardClicked.emit(item)
   }
-}
-
-function intersectRect(rect1: DOMRect, rect2: DOMRect) {
-  // 邊界重疊不算
-  return !(rect2.left >= rect1.right ||
-           rect2.right <= rect1.left ||
-           rect2.top >= rect1.bottom ||
-           rect2.bottom <= rect1.top);
 }

@@ -10,4 +10,10 @@ export class ScrollItemViewModel {
   icon = "";
   title = "";
   content = "";
+
+  // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+
+  get vm() {
+    return this;
+  }
 }

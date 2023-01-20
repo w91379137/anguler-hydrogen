@@ -18,7 +18,9 @@
 
 <ng-template
   #defaultCard
-  class="card" let-id="id" let-icon="icon" let-title="title" let-content="content">
-  <label class="title">{{ title }}</label> <br>
-  <label class="content">{{ content }}</label>
+  class="card"
+  let-vm="vm">
+  <!-- {{ vm | json }} -->
+  <label class="title">{{ vm.title }}</label><br>
+  <label class="content">{{ vm.content }}</label><br>
 </ng-template>
