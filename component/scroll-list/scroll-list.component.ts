@@ -104,7 +104,7 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
     let parentRect: DOMRect = this.container.nativeElement.getBoundingClientRect()
 
     let show: number[] = []
-    // console.log('位置', scrollTop)
+    // console.log('位置', parentRect);
     for (const card of this.cardList) {
 
       // https://stackoverflow.com/questions/26423335/elements-coordinates-relative-to-its-parent

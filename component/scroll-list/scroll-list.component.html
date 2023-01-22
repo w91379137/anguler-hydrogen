@@ -1,6 +1,10 @@
 <ng-container *ngIf="viewModel">
-  <section class="scroll-view">
-    <div #card_container
+  <section
+    #card_container
+    class="scroll-view"
+    (scroll)="onScrolled()"
+  >
+    <div
       class="scroll-view--container flex f-column"
       (scroll)="onScrolled()"
     >
