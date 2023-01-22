@@ -48,14 +48,21 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(takeUntil(this.ngUnsubscribe))
     .pipe(distinctUntilChanged((a, b) => {
       if (a.length != b.length) {
+        // console.log(a)
         return false;
       }
+      // forEach return 是無效的
+      let result = true
       a.forEach((ele, idx) => {
-        if (ele !== b[idx]) {
-          return false;
+        if (result) {
+          // console.log(ele, b[idx], idx)
+          if (ele !== b[idx]) {
+            result = false;
+          }
         }
       });
-      return true;
+      // console.log('是否相同', result);
+      return result;
     }))
     .subscribe(this.scrolled)
   }
@@ -116,6 +123,7 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
         show.push(id)
       }
     }
+    // console.log('顯示中', show);
     this.scrolled$.next(show);
   }
 
