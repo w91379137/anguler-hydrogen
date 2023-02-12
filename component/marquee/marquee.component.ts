@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { delay } from '../../service/const/tool';
+import { delay } from '../../util/std-tool';
 import { MarqueeAnimationName, MarqueeViewModel } from './marquee.viewmodel';
 
 @Component({
