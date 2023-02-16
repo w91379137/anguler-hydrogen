@@ -30,6 +30,13 @@ export class MessageBoxService {
     return dialogRef.afterClosed();
   }
 
+  showAlertSuccessWarning(
+    isSuccess: boolean,
+    successMessage: string,
+    warningMessage: string): Observable<AlertViewModel | undefined> {
+      return isSuccess ? this.showAlertSuccess(successMessage) : this.showAlertWarning(warningMessage)
+  }
+
   showAlertSuccess(message: string): Observable<AlertViewModel | undefined> {
     let vm = new AlertViewModel()
     vm.title = AlertTitle.Success
