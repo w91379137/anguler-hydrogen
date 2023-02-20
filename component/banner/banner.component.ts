@@ -8,7 +8,7 @@ import { BannerViewModel } from './banner.viewmodel';
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss']
 })
-export class BannerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BannerComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -19,31 +19,13 @@ export class BannerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor() { }
 
-  ngOnInit(): void { }
-
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     interval(700)
     .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(async () => {
-
-      if (!(this.viewModel instanceof BannerViewModel)) {
-        return
-      }
-
-      let timepass = new Date().getTime() - this.viewModel.lastChangeTime.getTime();
-      if (timepass <= this.viewModel.timeLength) {
-        return;
-      }
-      this.viewModel.index += 1;
-
-      const length = this.viewModel.list.length
-      if (length === 0) {
-        return;
-      }
-
-      this.viewModel.current = this.viewModel.list[this.viewModel.index % length];
-      this.viewModel.lastChangeTime = new Date();
-    });
+    .subscribe(() => {
+      this.updateImage()
+    })
+    this.updateImage()
   }
 
   ngOnDestroy(): void {
@@ -53,6 +35,27 @@ export class BannerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
   // action
+
+  async updateImage() {
+    if (!(this.viewModel instanceof BannerViewModel)) {
+      return
+    }
+
+    let timepass = new Date().getTime() - this.viewModel.lastChangeTime.getTime();
+    if (timepass <= this.viewModel.timeLength) {
+      return;
+    }
+    this.viewModel.index += 1;
+
+    const length = this.viewModel.list.length
+    if (length === 0) {
+      return;
+    }
+
+    this.viewModel.current = this.viewModel.list[this.viewModel.index % length];
+    this.viewModel.lastChangeTime = new Date();
+  }
+
   onImgError(event) {
 
     // 圖片錯誤
