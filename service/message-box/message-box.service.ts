@@ -10,7 +10,7 @@ import { AlertViewModel, AlertTitle, AlertButtonMode } from '../../component/ale
 export class MessageBoxService {
 
   constructor(
-    private dialog: MatDialog
+    protected dialog: MatDialog
   ) { }
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
@@ -30,11 +30,11 @@ export class MessageBoxService {
     return dialogRef.afterClosed();
   }
 
-  showAlertSuccessWarning(
+  showAlertSuccessError(
     isSuccess: boolean,
     successMessage: string,
     warningMessage: string): Observable<AlertViewModel | undefined> {
-      return isSuccess ? this.showAlertSuccess(successMessage) : this.showAlertWarning(warningMessage)
+      return isSuccess ? this.showAlertSuccess(successMessage) : this.showAlertError(warningMessage)
   }
 
   showAlertSuccess(message: string): Observable<AlertViewModel | undefined> {
@@ -44,6 +44,7 @@ export class MessageBoxService {
     vm.mode = AlertButtonMode.onlyyes
     return this.showAlert(vm);
   }
+
   showAlertWarning(message: string): Observable<AlertViewModel | undefined> {
     let vm = new AlertViewModel()
     vm.title = AlertTitle.Warning
@@ -51,6 +52,7 @@ export class MessageBoxService {
     vm.mode = AlertButtonMode.yesno
     return this.showAlert(vm);
   }
+
   showAlertError(message: string): Observable<AlertViewModel | undefined> {
     let vm = new AlertViewModel()
     vm.title = AlertTitle.Error
