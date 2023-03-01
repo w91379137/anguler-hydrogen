@@ -5,11 +5,13 @@ export class ScrollListViewModel {
 }
 
 export class ScrollItemViewModel {
-  id = -1;
+  id = -1
 
-  icon = "";
-  title = "";
-  content = "";
+  icon = ""
+  title = ""
+  content = ""
+
+  verticalPercent = 50
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 

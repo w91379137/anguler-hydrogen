@@ -9,7 +9,10 @@
     >
       <ng-container *ngFor="let item of viewModel.itemList">
         <!-- {{ item | json}} -->
-        <div #card_div [id]="item.id" (click)="onCardClicked(item)">
+        <div #card_div [id]="item.id"
+          (click)="onCardClicked(item)"
+          style="--data-position:{{ item.verticalPercent }}"
+        >
           <ng-container
             [ngTemplateOutlet]="customCard ? customCard : defaultCard"
             [ngTemplateOutletContext]="item"

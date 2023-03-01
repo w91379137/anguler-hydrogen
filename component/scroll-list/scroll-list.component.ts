@@ -112,16 +112,22 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let show: number[] = []
     // console.log('位置', parentRect);
+    let totalHeight = parentRect.height
     for (const card of this.cardList) {
 
       // https://stackoverflow.com/questions/26423335/elements-coordinates-relative-to-its-parent
 
       let childRect: DOMRect = card.nativeElement.getBoundingClientRect()
+      let id = parseInt(card.nativeElement.id)
       if (intersectRect(parentRect, childRect)) {
-        let id = parseInt(card.nativeElement.id)
         // console.log('取得', id, parentRect, childRect)
         show.push(id)
       }
+      let vm = this.viewModel.itemList[id]
+      let verticalPercent = (childRect.top + childRect.height / 2 - parentRect.top) / totalHeight * 100
+      verticalPercent = Math.max(0, verticalPercent)
+      verticalPercent = Math.min(100, verticalPercent)
+      vm.verticalPercent = verticalPercent
     }
     // console.log('顯示中', show);
     this.scrolled$.next(show);
