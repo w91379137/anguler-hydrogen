@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { interval, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { intersectRect } from '../../util/geometry';
@@ -9,7 +9,7 @@ import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmode
   templateUrl: './scroll-list.component.html',
   styleUrls: ['./scroll-list.component.scss']
 })
-export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ScrollListComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -67,16 +67,19 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(this.scrolled)
   }
 
-  ngOnChanges() {
+  once = false
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
     setTimeout(() => {
-      this.onScrolled();
+      this.once = true
     }, 1);
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.onScrolled();
-    }, 1);
+    // console.log('ngAfterViewInit')
+    // setTimeout(() => {
+    //   this.onScrolled();
+    // }, 1);
 
     interval(300)
     .pipe(takeUntil(this.ngUnsubscribe))
@@ -96,6 +99,17 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.viewModel.target = -1
 
     });
+  }
+
+  ngAfterViewChecked() {
+    if (this.once) {
+      this.once = false
+      setTimeout(() => {
+        this.onScrolled();
+      }, 70);
+      // 這邊其實在賭 api 因為更新之後 沒有 verticalPercent
+      console.log('ngAfterViewChecked')
+    }
   }
 
   ngOnDestroy(): void {
@@ -125,8 +139,8 @@ export class ScrollListComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       let vm = this.viewModel.itemList[id]
       let verticalPercent = (childRect.top + childRect.height / 2 - parentRect.top) / totalHeight * 100
-      verticalPercent = Math.max(0, verticalPercent)
-      verticalPercent = Math.min(100, verticalPercent)
+      // verticalPercent = Math.max(0, verticalPercent)
+      // verticalPercent = Math.min(100, verticalPercent)
       vm.verticalPercent = verticalPercent
     }
     // console.log('顯示中', show);

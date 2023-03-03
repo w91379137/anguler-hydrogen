@@ -11,7 +11,7 @@ export class ScrollItemViewModel {
   title = ""
   content = ""
 
-  verticalPercent = 50
+  verticalPercent = 0
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
