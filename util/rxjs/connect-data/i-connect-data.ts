@@ -47,9 +47,9 @@ export class IConnectData<InputType = any, OutputType = any> {
 
     if (this.mode === GetDataMode.OnlyOnce) {
       this.outputSource$ = inputSource$.pipe(
-          tap(input => console.log(`input: ${input}`)),
+          // tap(input => console.log(`input: ${input}`)),
           switchMap(input => this.getData(input)),
-          tap(output => console.log(`output: ${output}`)),
+          // tap(output => console.log(`output: ${output}`)),
           shareReplay(1)
         )
       return
@@ -66,10 +66,10 @@ export class IConnectData<InputType = any, OutputType = any> {
     }
     if (source$) {
       this.outputSource$ = source$.pipe(
-        tap(input => console.log(`input: ${input}`)),
+        // tap(input => console.log(`input: ${input}`)),
         switchMap(input => this.getData(input)),
         tap(output => {
-          console.log(`output: ${output}`)
+          // console.log(`output: ${output}`)
           this.cacheValue = output
         }),
         // share(),
