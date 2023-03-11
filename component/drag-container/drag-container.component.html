@@ -1,9 +1,18 @@
 
-<div style="position: fixed; top: 0px; left: 0px;" cdkDrag
-  (cdkDragStarted)="onDragStarted()"
-  (cdkDragReleased)="onDragEnded()"
+<div
+  class="boundary"
+  style="position: fixed;"
+  [ngStyle]="{ 'top': boundary.top, 'bottom': boundary.bottom, 'left': boundary.left, 'right': boundary.right }"
 >
-  <div [ngStyle]="{'pointer-events': contentClickable ? 'auto' : 'none'}">
-    <ng-content></ng-content>
+  <div style="position: absolute; top: 0px; left: 0px;"
+    cdkDrag
+    cdkDragBoundary=".boundary"
+
+    (cdkDragStarted)="onDragStarted()"
+    (cdkDragReleased)="onDragEnded()"
+  >
+    <div [ngStyle]="{'pointer-events': contentClickable ? 'auto' : 'none'}">
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>
