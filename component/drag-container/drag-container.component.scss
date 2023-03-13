@@ -1,0 +1,11 @@
+
+.boundary {
+  position: fixed;
+  pointer-events: none;
+}
+
+.drag-item {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
