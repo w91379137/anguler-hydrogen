@@ -8,3 +8,17 @@ export function intersectRect(rect1: DOMRect, rect2: DOMRect) {
            rect2.top >= rect1.bottom ||
            rect2.bottom <= rect1.top)
 }
+
+interface Point {
+  x: number,
+  y: number,
+}
+
+export function rectCenter(rect: DOMRect): Point {
+  let result = {
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  }
+  return result
+}
+
