@@ -1,7 +1,10 @@
 export class ScrollListViewModel {
+
   id = -1;
   itemList: ScrollItemViewModel[] = [];
   target = -1;
+  isChanged = false
+
 }
 
 export class ScrollItemViewModel {

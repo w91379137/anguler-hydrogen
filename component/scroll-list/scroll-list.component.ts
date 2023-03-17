@@ -1,5 +1,5 @@
 import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
-import { interval, Subject } from 'rxjs';
+import { interval, Subject, timer } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { intersectRect } from '../../util/geometry';
 import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmodel';
@@ -9,7 +9,7 @@ import { ScrollItemViewModel, ScrollListViewModel } from './scroll-list.viewmode
   templateUrl: './scroll-list.component.html',
   styleUrls: ['./scroll-list.component.scss']
 })
-export class ScrollListComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class ScrollListComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -41,6 +41,15 @@ export class ScrollListComponent implements OnInit, AfterViewChecked, OnDestroy 
   constructor() { }
 
   ngOnInit(): void {
+
+    timer(0, 200)
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(_ => {
+      if (this.viewModel.isChanged) {
+        this.onScrolled()
+      }
+    })
+
     this.scrolled$
     .pipe(takeUntil(this.ngUnsubscribe))
     .pipe(distinctUntilChanged((a, b) => {
@@ -64,21 +73,13 @@ export class ScrollListComponent implements OnInit, AfterViewChecked, OnDestroy 
     .subscribe(this.scrolled)
   }
 
-  once = false
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
-    setTimeout(() => {
-      this.once = true
-    }, 1);
-  }
-
   ngAfterViewInit(): void {
     // console.log('ngAfterViewInit')
     // setTimeout(() => {
     //   this.onScrolled();
     // }, 1);
 
-    interval(300)
+    timer(0, 300)
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(async () => {
 
@@ -96,17 +97,6 @@ export class ScrollListComponent implements OnInit, AfterViewChecked, OnDestroy 
       this.viewModel.target = -1
 
     });
-  }
-
-  ngAfterViewChecked() {
-    if (this.once) {
-      this.once = false
-      setTimeout(() => {
-        this.onScrolled();
-      }, 70);
-      // 這邊其實在賭 api 因為更新之後 沒有 verticalPercent
-      console.log('ngAfterViewChecked')
-    }
   }
 
   ngOnDestroy(): void {
