@@ -36,9 +36,6 @@ export class ScrollListComponent implements OnInit, AfterViewChecked, OnDestroy 
   @Output()
   scrolled = new EventEmitter<number[]>();
 
-  @Output()
-  cardClicked = new EventEmitter<ScrollItemViewModel>();
-
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
   constructor() { }
@@ -145,9 +142,5 @@ export class ScrollListComponent implements OnInit, AfterViewChecked, OnDestroy 
     }
     // console.log('顯示中', show);
     this.scrolled$.next(show);
-  }
-
-  onCardClicked(item: ScrollItemViewModel) {
-    this.cardClicked.emit(item)
   }
 }
