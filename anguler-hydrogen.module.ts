@@ -13,6 +13,7 @@ import { DragContainerComponent } from './component/drag-container/drag-containe
 import { YcAngulerShareMaterialModule } from '../yc-anguler-share-material/yc-anguler-share-material.module';
 import { ScrollListComponent } from './component/scroll-list/scroll-list.component';
 import { HoverDirective } from './directive/hover/hover.directive';
+import { AsyncClickDirective } from './directive/async-click/async-click.directive';
 
 let component = [
   BannerComponent,
@@ -25,6 +26,7 @@ let component = [
 
 let directive = [
   HoverDirective,
+  AsyncClickDirective,
 ]
 
 let pipe = [
