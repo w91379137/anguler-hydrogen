@@ -37,7 +37,10 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
   private centerSubscription: Subscription | undefined = undefined
 
   @Input('h2-asyncClick')
-  clickFunc: () => Promise<any> = () => Promise.resolve()
+  clickFunc: (...args) => Promise<any> = () => Promise.resolve()
+
+  @Input('h2-asyncClickArgs')
+  args: any[] = []
 
   @Input('h2-asyncClickChange')
   changeFunc: (Renderer2, ElementRef, boolean) => void = (...args) => changeDisabled(...args)
@@ -106,7 +109,7 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
       console.warn(`click: no function`)
       return
     }
-    this.handle(this.clickFunc())
+    this.handle(this.clickFunc(...this.args))
   }
 
   async handle(result) {
