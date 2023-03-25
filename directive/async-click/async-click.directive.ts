@@ -9,37 +9,50 @@ import { Subscription, Observable, noop } from 'rxjs';
   selector: '[h2-asyncClick]'
 })
 export class AsyncClickDirective implements OnChanges, OnDestroy {
-  private pending = true;
-  private disabled = false;
-  private subscription: Subscription;
 
-  @Input('asyncClick') clickFunc;
+  private pending = true
+  private subscription: Subscription | undefined = undefined
+
+  @Input('h2-asyncClick')
+  clickFunc: () => Promise<any> = () => Promise.resolve()
+
+  // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
   constructor(
     private _renderer: Renderer2,
     private _elementRef: ElementRef
   ) {
-    console.log(this._elementRef)
-  }
-
-  @HostListener('click')
-  onClick() {
-    console.log('click')
-    if (typeof this.clickFunc === 'function') {
-      this.subscribe(this.clickFunc());
-    }
+    // console.log(this._elementRef)
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // 如果中途替換 clickFunc
     if (this.pending) {
-      this.enable();
+      this.enable()
     }
     if (this.subscription) {
-      this.subscription.unsubscribe();
+      this.subscription.unsubscribe()
     }
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
+  }
+
+  // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+
+  enable() {
+    this.pending = true
+    this._renderer.removeAttribute(
+      this._elementRef.nativeElement,
+      'disabled'
+    );
+  }
+
   disable() {
+    this.pending = false
     this._renderer.setAttribute(
       this._elementRef.nativeElement,
       'disabled',
@@ -47,17 +60,19 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
     );
   }
 
-  enable() {
-    this._renderer.removeAttribute(
-      this._elementRef.nativeElement,
-      'disabled'
-    );
+  // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+
+  @HostListener('click')
+  onClick() {
+    // console.log('click')
+    if (typeof this.clickFunc === 'function') {
+      this.subscribe(this.clickFunc())
+    }
   }
 
   subscribe(r) {
-    this.pending = true;
-    this.disable();
-    const enable = () => this.enable();
+    this.disable()
+    const enable = () => this.enable()
     if (typeof r.subscribe === 'function') {
       this.subscription = (<Observable<any>>r).subscribe({
         next: noop,
@@ -65,14 +80,14 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
         error: enable
       })
     } else if (typeof r.then === 'function') {
-      (<Promise<any>>r).then(enable).catch(enable);
-      this.subscription = null;
+      (<Promise<any>>r).then(enable).catch(enable)
+      this.subscription = undefined
+    }
+    else {
+      enable()
     }
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+
 }
