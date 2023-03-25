@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostListener, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges } from '@angular/core';
 import { Subscription, Observable, noop } from 'rxjs';
+import { changeDisabled } from './async-click.html';
 
 // https://stackoverflow.com/questions/61221668/holding-a-button-state-until-a-promise-is-resolved-in-angular-9
 
@@ -10,11 +11,27 @@ import { Subscription, Observable, noop } from 'rxjs';
 })
 export class AsyncClickDirective implements OnChanges, OnDestroy {
 
-  private pending = true
+  private _pending = false
+  private set pending(value: boolean) {
+    this._pending = value
+
+    try {
+      this.changeFunc(this._renderer, this._elementRef, value)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  private get pending(): boolean {
+    return this._pending
+  }
+
   private subscription: Subscription | undefined = undefined
 
   @Input('h2-asyncClick')
   clickFunc: () => Promise<any> = () => Promise.resolve()
+
+  @Input('h2-asyncClickChange')
+  changeFunc: (Renderer2, ElementRef, boolean) => void = (...args) => changeDisabled(...args)
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
@@ -28,7 +45,7 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     // 如果中途替換 clickFunc
     if (this.pending) {
-      this.enable()
+      this.pending = false
     }
     if (this.subscription) {
       this.subscription.unsubscribe()
@@ -43,48 +60,35 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
-  enable() {
-    this.pending = true
-    this._renderer.removeAttribute(
-      this._elementRef.nativeElement,
-      'disabled'
-    );
-  }
-
-  disable() {
-    this.pending = false
-    this._renderer.setAttribute(
-      this._elementRef.nativeElement,
-      'disabled',
-      'true'
-    );
-  }
-
-  // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
-
   @HostListener('click')
   onClick() {
     // console.log('click')
-    if (typeof this.clickFunc === 'function') {
-      this.subscribe(this.clickFunc())
+    if (this.pending) {
+      console.warn(`click: pending`)
+      return
     }
+    if (typeof this.clickFunc !== 'function') {
+      console.warn(`click: no function`)
+      return
+    }
+    this.handle(this.clickFunc())
   }
 
-  subscribe(r) {
-    this.disable()
-    const enable = () => this.enable()
-    if (typeof r.subscribe === 'function') {
-      this.subscription = (<Observable<any>>r).subscribe({
+  async handle(result) {
+    const enable = () => { this.pending = false } // bind this
+
+    if (typeof result.subscribe === 'function') {
+      this.pending = true
+      this.subscription = (<Observable<any>>result).subscribe({
         next: noop,
         complete: enable,
         error: enable
       })
-    } else if (typeof r.then === 'function') {
-      (<Promise<any>>r).then(enable).catch(enable)
+
+    } else if (typeof result.then === 'function') {
+      this.pending = true
+      let _ = (<Promise<any>>result).then(enable).catch(enable)
       this.subscription = undefined
-    }
-    else {
-      enable()
     }
   }
 
