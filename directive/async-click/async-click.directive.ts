@@ -1,6 +1,7 @@
 import { Directive, ElementRef, HostListener, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges } from '@angular/core';
 import { Subscription, Observable, noop } from 'rxjs';
-import { filter, tap, map } from 'rxjs/operators';
+import { filter, tap, map, timeout } from 'rxjs/operators';
+import { delay } from '../../util/std-tool';
 import { AsyncClickCenter } from './async-click.center';
 import { changeDisabled } from './async-click.html';
 
@@ -41,6 +42,9 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
 
   @Input('h2-asyncClickArgs')
   args: any[] = []
+
+  @Input('h2-asyncClickTimeout')
+  timeout = 1 * 1000
 
   @Input('h2-asyncClickChange')
   changeFunc: (Renderer2, ElementRef, boolean) => void = (...args) => changeDisabled(...args)
@@ -117,7 +121,9 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
 
     if (typeof result.subscribe === 'function') {
       this.pending = true
-      this.clickSubscription = (<Observable<any>>result).subscribe({
+      this.clickSubscription = (<Observable<any>>result)
+      .pipe(timeout(this.timeout))
+      .subscribe({
         next: noop,
         complete: enable,
         error: enable
@@ -125,7 +131,11 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
 
     } else if (typeof result.then === 'function') {
       this.pending = true
-      let _ = (<Promise<any>>result).then(enable).catch(enable)
+      Promise.race([
+        <Promise<any>>result,
+        delay(this.timeout),
+      ])
+      .then(enable).catch(enable)
       this.clickSubscription = undefined
     }
   }
