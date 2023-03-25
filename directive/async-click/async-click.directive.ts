@@ -1,5 +1,7 @@
 import { Directive, ElementRef, HostListener, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges } from '@angular/core';
 import { Subscription, Observable, noop } from 'rxjs';
+import { filter, tap, map } from 'rxjs/operators';
+import { AsyncClickCenter } from './async-click.center';
 import { changeDisabled } from './async-click.html';
 
 // https://stackoverflow.com/questions/61221668/holding-a-button-state-until-a-promise-is-resolved-in-angular-9
@@ -12,8 +14,14 @@ import { changeDisabled } from './async-click.html';
 export class AsyncClickDirective implements OnChanges, OnDestroy {
 
   private _pending = false
+  private isSlave = false
+
   private set pending(value: boolean) {
     this._pending = value
+
+    if (!this.isSlave && this.changeKey) {
+      AsyncClickCenter.changePending(this.changeKey, value)
+    }
 
     try {
       this.changeFunc(this._renderer, this._elementRef, value)
@@ -25,13 +33,17 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
     return this._pending
   }
 
-  private subscription: Subscription | undefined = undefined
+  private clickSubscription: Subscription | undefined = undefined
+  private centerSubscription: Subscription | undefined = undefined
 
   @Input('h2-asyncClick')
   clickFunc: () => Promise<any> = () => Promise.resolve()
 
   @Input('h2-asyncClickChange')
   changeFunc: (Renderer2, ElementRef, boolean) => void = (...args) => changeDisabled(...args)
+
+  @Input('h2-asyncClickKey')
+  changeKey = ''
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
@@ -40,6 +52,7 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
     private _elementRef: ElementRef
   ) {
     // console.log(this._elementRef)
+    this.hookAsyncClickCenterPendingKey()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -47,15 +60,37 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
     if (this.pending) {
       this.pending = false
     }
-    if (this.subscription) {
-      this.subscription.unsubscribe()
+    if (this.clickSubscription) {
+      this.clickSubscription.unsubscribe()
     }
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe()
+    if (this.clickSubscription) {
+      this.clickSubscription.unsubscribe()
     }
+    if (this.centerSubscription) {
+      this.centerSubscription.unsubscribe()
+    }
+  }
+
+  // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+  hookAsyncClickCenterPendingKey() {
+    this.centerSubscription = AsyncClickCenter.pendingKey$
+    .pipe(filter(key => key === this.changeKey))
+    .pipe(filter(key => AsyncClickCenter.isPending(key) !== this.pending))
+    .subscribe(key => {
+      let remotePending = AsyncClickCenter.isPending(key)
+      if (remotePending) {
+        this.isSlave = true
+        this.pending = remotePending
+      }
+      else {
+        this.pending = remotePending
+        this.isSlave = false
+      }
+      // console.log(`相異,${key},${remotePending},${this.pending}`)
+    })
   }
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
@@ -79,7 +114,7 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
 
     if (typeof result.subscribe === 'function') {
       this.pending = true
-      this.subscription = (<Observable<any>>result).subscribe({
+      this.clickSubscription = (<Observable<any>>result).subscribe({
         next: noop,
         complete: enable,
         error: enable
@@ -88,7 +123,7 @@ export class AsyncClickDirective implements OnChanges, OnDestroy {
     } else if (typeof result.then === 'function') {
       this.pending = true
       let _ = (<Promise<any>>result).then(enable).catch(enable)
-      this.subscription = undefined
+      this.clickSubscription = undefined
     }
   }
 
