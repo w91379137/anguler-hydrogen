@@ -3,9 +3,9 @@ import { noop, Observable } from "rxjs"
 import { timeout } from "rxjs/operators"
 import { delay } from "../../util/std-tool"
 
-let busyRecordDict = { }
+const BusyRecordDict = { }
 
-export function CheckWait(
+export function IgnoreBeforeFinish(
   {
     uuid = `${Math.random()}`,
     timeoutms = 1000,
@@ -20,16 +20,23 @@ export function CheckWait(
     const childFunction = descriptor.value
 
     descriptor.value = (...args: any[]) => {
-      if (busyRecordDict[uuid]) {
-        console.log(`Busy ${uuid}`, key)
+      if (BusyRecordDict[uuid]) {
+        let name = ''
+        if (typeof key === 'string') {
+          name = key
+        }
+        if (typeof key === 'symbol') {
+          name = Symbol.keyFor(key)
+        }
+        console.log(`Busy_Group.uuid:${uuid}_function:${name}`)
         return null
       }
 
-      const enable = () => { busyRecordDict[uuid] = false }
+      const enable = () => { BusyRecordDict[uuid] = false }
 
       let result = childFunction.apply(this, args)
       if (typeof result.subscribe === 'function') {
-        busyRecordDict[uuid] = true
+        BusyRecordDict[uuid] = true
         let _ = (<Observable<any>>result)
         .pipe(timeout(timeoutms))
         .subscribe({
@@ -38,7 +45,7 @@ export function CheckWait(
           error: enable
         })
       } else if (typeof result.then === 'function') {
-        busyRecordDict[uuid] = true
+        BusyRecordDict[uuid] = true
         Promise.race([
           <Promise<any>>result,
           delay(timeoutms),

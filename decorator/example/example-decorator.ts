@@ -13,3 +13,8 @@ export function DecoratorName(value: any) {
   }
   return result
 }
+
+// symbol
+// https://hackmd.io/@AngularTeethUp/SJJHCWvMj
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+// https://pjchender.dev/javascript/js-symbols/
