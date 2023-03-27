@@ -18,6 +18,7 @@ export class ScrollItemViewModel {
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
+  /** 為了讓 ngTemplateOutletContext 傳遞 */
   get vm() {
     return this;
   }

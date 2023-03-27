@@ -14,12 +14,14 @@ import { YcAngulerShareMaterialModule } from '../yc-anguler-share-material/yc-an
 import { ScrollListComponent } from './component/scroll-list/scroll-list.component';
 import { HoverDirective } from './directive/hover/hover.directive';
 import { AsyncClickDirective } from './directive/async-click/async-click.directive';
+import { FloatingActionMenuCustomComponent } from './component/floating-action-menu-custom/floating-action-menu-custom.component';
 
 let component = [
   BannerComponent,
   MarqueeComponent,
   AlertComponent,
   FloatingActionMenuComponent,
+  FloatingActionMenuCustomComponent,
   DragContainerComponent,
   ScrollListComponent,
 ]
