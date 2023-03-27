@@ -9,13 +9,13 @@ import { FloatingActionMenuItemViewModel, FloatingActionMenuViewModel } from './
 })
 export class FloatingActionMenuComponent implements OnInit, OnDestroy {
 
-  private ngUnsubscribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>()
 
   @Input()
-  public viewModel: FloatingActionMenuViewModel | undefined;
+  public viewModel: FloatingActionMenuViewModel
 
   @Output()
-  buttonClicked = new EventEmitter<FloatingActionMenuItemViewModel>();
+  buttonClicked = new EventEmitter<FloatingActionMenuItemViewModel>()
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 

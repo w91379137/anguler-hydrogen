@@ -1,1 +1,29 @@
-<p>floating-action-menu-custom works!</p>
+
+<ng-container *ngIf="viewModel">
+  <main class="h-fam">
+    <section class="h-fam-container h-fam--down">
+      <div class="h-fam-main">
+        <ng-container
+            [ngTemplateOutlet]="customMenuMainButton ? customMenuMainButton : defaultMenuMainButton"
+            [ngTemplateOutletContext]="viewModel"
+        ></ng-container>
+      </div>
+      <div class="h-fam-second">
+        <ng-container *ngIf="viewModel.isOpen">
+          <ng-container *ngFor="let item of viewModel.itemList">
+            <button (click)="onChildButtonClicked(item)">
+              {{ item.title }}
+            </button>
+          </ng-container>
+        </ng-container>
+      </div>
+    </section>
+  </main>
+</ng-container>
+
+<ng-template
+  #defaultMenuMainButton
+  let-vm="vm">
+  <!-- {{ vm | json }} -->
+  <button (click)="onMainButtonClicked()">{{ vm.isOpen ? "關閉" : "開啟" }}</button>
+</ng-template>
