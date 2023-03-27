@@ -15,7 +15,7 @@ export class FloatingActionMenuCustomComponent implements OnInit {
   customMenuMainButton: TemplateRef<any>
 
   @Input()
-  customMenuSubButtonList: TemplateRef<any>
+  customMenuChildButtonList: TemplateRef<any>
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
 
@@ -27,5 +27,9 @@ export class FloatingActionMenuCustomComponent implements OnInit {
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
   async onMainButtonClicked() {
     this.viewModel.isOpen = !this.viewModel.isOpen
+  }
+
+  async onChildButtonClicked(item) {
+    console.log('onChildButtonClicked', item)
   }
 }

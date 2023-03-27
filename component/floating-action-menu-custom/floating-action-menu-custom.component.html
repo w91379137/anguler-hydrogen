@@ -10,11 +10,10 @@
       </div>
       <div class="h-fam-second">
         <ng-container *ngIf="viewModel.isOpen">
-          <ng-container *ngFor="let item of viewModel.itemList">
-            <button (click)="onChildButtonClicked(item)">
-              {{ item.title }}
-            </button>
-          </ng-container>
+          <ng-container
+            [ngTemplateOutlet]="customMenuChildButtonList ? customMenuChildButtonList : defaultChildSubButtonList"
+            [ngTemplateOutletContext]="viewModel"
+          ></ng-container>
         </ng-container>
       </div>
     </section>
@@ -26,4 +25,15 @@
   let-vm="vm">
   <!-- {{ vm | json }} -->
   <button (click)="onMainButtonClicked()">{{ vm.isOpen ? "關閉" : "開啟" }}</button>
+</ng-template>
+
+<ng-template
+  #defaultChildSubButtonList
+  let-vm="vm">
+  <!-- {{ vm | json }} -->
+  <ng-container *ngFor="let item of [1, 2, 3]">
+    <button (click)="onChildButtonClicked(item)">
+      {{ item }}
+    </button>
+  </ng-container>
 </ng-template>
