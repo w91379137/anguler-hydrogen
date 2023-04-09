@@ -52,7 +52,7 @@ export function TimezoneNextMidnight(
   // 直接改成該時區的小時
   const hour = Math.floor(timeZoneOffset);
   const min = Math.floor((timeZoneOffset - hour) / 0.25) * 15;
-  console.log(hour, min);
+  // console.log(hour, min);
 
   // 讓這個時區的 午夜 12點 變成交界
   result.setUTCHours(-hour, -min, 0, 0);
