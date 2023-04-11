@@ -19,6 +19,7 @@ import { FloatingActionMenuCustomComponent } from './component/floating-action-m
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { TimeFmtPipe } from './pipe/TimeFmt/time-fmt.pipe';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -40,6 +41,7 @@ let directive = [
 
 let pipe = [
   PointFmtPipe,
+  TimeFmtPipe,
 ]
 
 let allDeclaration = [...component, ...directive, ...pipe]
