@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { IObserverData } from '../../util/rxjs/i-observer-data';
 import { H2ViewModel } from './h2.viewmodel';
@@ -9,7 +9,11 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './h2.component.html',
   styleUrls: ['./h2.component.scss']
 })
-export class H2Component<ViewModelType = H2ViewModel> implements OnInit, OnDestroy {
+export class H2Component<ViewModelType = H2ViewModel> implements
+  OnChanges, OnInit, DoCheck,
+  AfterContentInit, AfterContentChecked,
+  AfterViewInit, AfterViewChecked,
+  OnDestroy {
 
   public id = new Date().getTime()
 
@@ -19,10 +23,23 @@ export class H2Component<ViewModelType = H2ViewModel> implements OnInit, OnDestr
   protected ngUnsubscribe = new Subject<void>()
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
+  // https://ithelp.ithome.com.tw/articles/10188047
 
   constructor() { }
 
+  ngOnChanges(): void { }
+
   ngOnInit(): void { }
+
+  ngDoCheck(): void { }
+
+  ngAfterContentInit(): void { }
+
+  ngAfterContentChecked(): void { }
+
+  ngAfterViewInit(): void { }
+
+  ngAfterViewChecked(): void { }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next()
