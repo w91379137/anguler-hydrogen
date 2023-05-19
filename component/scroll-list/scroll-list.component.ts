@@ -120,7 +120,9 @@ export class ScrollListComponent implements OnInit, OnDestroy {
           //   block: 'end',
           //   inline: 'nearest',
           // });
-          let y = target.offsetTop - target_parant.offsetTop
+
+          // 因為跟判定邊界有關 所以 + 1 要跟 onScrolled 去看
+          let y = target.offsetTop - target_parant.offsetTop + 1
           // console.log('滾動到', y);
           scroll_parant.scrollTo({
             top: y,
