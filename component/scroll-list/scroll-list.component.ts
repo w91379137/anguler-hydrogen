@@ -63,6 +63,7 @@ export class ScrollListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((_) => {
         if (this.viewModel.isChanged) {
+          // console.log('scroll-list: force isChanged');
           this.onScrolled();
         }
       });
@@ -142,6 +143,9 @@ export class ScrollListComponent implements OnInit, OnDestroy {
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
   onScrolled() {
+    // 賦歸強制更新
+    this.viewModel.isChanged = false;
+
     // 這邊可以查哪個只元件在畫面上
     // 然後去回報
     // console.log()
@@ -161,13 +165,15 @@ export class ScrollListComponent implements OnInit, OnDestroy {
         show.push(id);
       }
       let vm = this.viewModel.itemList[id];
-      let verticalPercent =
+      if (vm) {
+        let verticalPercent =
         ((childRect.top + childRect.height / 2 - parentRect.top) /
           totalHeight) *
         100;
-      // verticalPercent = Math.max(0, verticalPercent)
-      // verticalPercent = Math.min(100, verticalPercent)
-      vm.verticalPercent = verticalPercent;
+        // verticalPercent = Math.max(0, verticalPercent)
+        // verticalPercent = Math.min(100, verticalPercent)
+        vm.verticalPercent = verticalPercent;
+      }
     }
     // console.log('顯示中', show);
     this.scrolled$.next(show);
