@@ -110,12 +110,25 @@ export class ScrollListComponent implements OnInit, OnDestroy {
         let idStr = this.viewModel.target.toString();
         let card = this.cardList.find((ele) => ele.nativeElement.id === idStr);
         if (card) {
-          card.nativeElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'end',
-            inline: 'nearest',
+          let target = card.nativeElement as HTMLElement;
+          // console.log('滾動', target);
+          let target_parant = target.parentElement;
+          let scroll_parant = target_parant.parentElement;
+          // console.log('滾動parant', scroll_parant);
+          // dom.scrollIntoView({
+          //   behavior: 'smooth',
+          //   block: 'end',
+          //   inline: 'nearest',
+          // });
+          let y = target.offsetTop - target_parant.offsetTop
+          // console.log('滾動到', y);
+          scroll_parant.scrollTo({
+            top: y,
+            behavior: "smooth"
           });
+          // https://blog.csdn.net/lingliu0824/article/details/115338509
         }
+        // console.log('滾動到', this.viewModel.target);
         this.viewModel.target = -1;
       });
   }
