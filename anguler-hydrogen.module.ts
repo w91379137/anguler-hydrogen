@@ -16,10 +16,8 @@ import { HoverDirective } from './directive/hover/hover.directive';
 import { AsyncClickDirective } from './directive/async-click/async-click.directive';
 import { FloatingActionMenuCustomComponent } from './component/floating-action-menu-custom/floating-action-menu-custom.component';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 import { TimeFmtPipe } from './pipe/TimeFmt/time-fmt.pipe';
-import { HttpLoaderFactoryCustom } from './service/language/custom-factory';
 
 
 let component = [

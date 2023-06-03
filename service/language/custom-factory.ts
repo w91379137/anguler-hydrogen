@@ -1,26 +1,51 @@
 
 
 import { HttpClient } from "@angular/common/http";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { TranslateLoader } from "@ngx-translate/core";
+import { Observable, merge } from "rxjs";
 
-export function HttpLoaderFactoryCustom(http: HttpClient) {
-  return new TranslateHttpLoaderCustom(http);
+export function HttpLoaderFactoryCustom(http: HttpClient, prefix = [''], suffix = "json") {
+  return new TranslateCustomHttpLoader(http, prefix, suffix);
 }
 
-class TranslateHttpLoaderCustom extends TranslateHttpLoader {
-  constructor(http: HttpClient) {
-    super(http);
+class TranslateCustomHttpLoader implements TranslateLoader {
+  constructor(
+    private http: HttpClient,
+    private prefix = [''],
+    private suffix = "json"
+  ) { }
+
+  getObservableForHttp(subPath, combinedObject, lang: string): Observable<Object> {
+
+    let path = `./assets/i18n/${lang}.${this.suffix}`
+    if (subPath) {
+      path = `./assets/i18n/${lang}.${subPath}.${this.suffix}`
+    }
+
+    let result = new Observable(observer => {
+
+        this.http.get(path).subscribe((res) => {
+          // console.log('getObservableForHttp', res);
+          let responseObj = res;
+          Object.keys(responseObj).forEach(key=>{
+              combinedObject[key] = responseObj[key];
+          });
+          // console.log(combinedObject);
+          observer.next(combinedObject);
+          // call complete if you want to close this stream (like a promise)
+          observer.complete();
+        });
+    });
+    return result;
   }
 
   getTranslation(lang: string): Observable<Object> {
-    console.log('getTranslation', lang);
+    // console.log('getTranslation', lang);
 
-    let result = super.getTranslation(lang).pipe(
-      tap((ele) => { console.log('getTranslation', ele); })
-    )
+    var combinedObject = new Object();
+    let allfile = this.prefix.map((value) => this.getObservableForHttp(value, combinedObject, lang));
 
-    return result;
+    return merge(...allfile)
   }
 }
+
