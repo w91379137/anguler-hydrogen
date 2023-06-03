@@ -3,39 +3,34 @@
 import { HttpClient } from "@angular/common/http";
 import { TranslateLoader } from "@ngx-translate/core";
 import { Observable, merge } from "rxjs";
+import { map } from "rxjs/operators";
 
-export function HttpLoaderFactoryCustom(http: HttpClient, prefix = [''], suffix = "json") {
-  return new TranslateCustomHttpLoader(http, prefix, suffix);
+// https://github.com/ngx-translate/core/issues/199
+
+export function HttpLoaderFactoryCustom(http: HttpClient, subPathList = [''], suffix = "json") {
+  return new TranslateCustomHttpLoader(http, subPathList, suffix);
 }
 
+const DirPath = './assets/i18n';
 class TranslateCustomHttpLoader implements TranslateLoader {
   constructor(
     private http: HttpClient,
-    private prefix = [''],
+    private subPathList = [''],
     private suffix = "json"
   ) { }
 
-  getObservableForHttp(subPath, combinedObject, lang: string): Observable<Object> {
+  getObservableForHttp(lang: string, subPath: string, combinedObject: Object): Observable<Object> {
 
-    let path = `./assets/i18n/${lang}.${this.suffix}`
-    if (subPath) {
-      path = `./assets/i18n/${lang}.${subPath}.${this.suffix}`
-    }
-
-    let result = new Observable(observer => {
-
-        this.http.get(path).subscribe((res) => {
-          // console.log('getObservableForHttp', res);
-          let responseObj = res;
-          Object.keys(responseObj).forEach(key=>{
-              combinedObject[key] = responseObj[key];
-          });
-          // console.log(combinedObject);
-          observer.next(combinedObject);
-          // call complete if you want to close this stream (like a promise)
-          observer.complete();
+    let args = [lang, subPath, this.suffix].filter((value) => !!value)
+    let path = `${DirPath}/${args.join('.')}`
+    let result = this.http.get(path).pipe(
+      map((res) => {
+        Object.keys(res).forEach(key=>{
+          combinedObject[key] = res[key];
         });
-    });
+        return combinedObject;
+      })
+    )
     return result;
   }
 
@@ -43,9 +38,10 @@ class TranslateCustomHttpLoader implements TranslateLoader {
     // console.log('getTranslation', lang);
 
     var combinedObject = new Object();
-    let allfile = this.prefix.map((value) => this.getObservableForHttp(value, combinedObject, lang));
+    let subPathObservableList = this.subPathList
+    .map((subPath) => this.getObservableForHttp(lang, subPath, combinedObject));
 
-    return merge(...allfile)
+    return merge(...subPathObservableList)
   }
 }
 
