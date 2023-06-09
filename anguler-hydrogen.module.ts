@@ -16,13 +16,9 @@ import { HoverDirective } from './directive/hover/hover.directive';
 import { AsyncClickDirective } from './directive/async-click/async-click.directive';
 import { FloatingActionMenuCustomComponent } from './component/floating-action-menu-custom/floating-action-menu-custom.component';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 import { TimeFmtPipe } from './pipe/TimeFmt/time-fmt.pipe';
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
+
 
 let component = [
   BannerComponent,
@@ -52,13 +48,7 @@ let allDeclaration = [...component, ...directive, ...pipe]
     CommonModule,
     HttpClientModule,
     YcAngulerShareMaterialModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
+    TranslateModule.forChild({}),
   ],
   providers: [
     StorageService,
