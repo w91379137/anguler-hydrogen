@@ -31,6 +31,7 @@ class TranslateCustomHttpLoader implements TranslateLoader {
         return combinedObject;
       }),
       catchError((err) => {
+        // 若沒有此錯誤攔截 i18n 套件如果遇到第一個載入失敗，即判定該語言不可用，不會有後續動作
         console.warn(`Error on loading i18n file, ${path}`, err);
         return of(combinedObject);
       })
