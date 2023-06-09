@@ -2,8 +2,8 @@
 
 import { HttpClient } from "@angular/common/http";
 import { TranslateLoader } from "@ngx-translate/core";
-import { Observable, merge } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, merge, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
 // https://github.com/ngx-translate/core/issues/199
 
@@ -29,6 +29,10 @@ class TranslateCustomHttpLoader implements TranslateLoader {
           combinedObject[key] = res[key];
         });
         return combinedObject;
+      }),
+      catchError((err) => {
+        console.warn(`Error on loading i18n file, ${path}`, err);
+        return of(combinedObject);
       })
     )
     return result;
@@ -44,4 +48,3 @@ class TranslateCustomHttpLoader implements TranslateLoader {
     return merge(...subPathObservableList)
   }
 }
-
