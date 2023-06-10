@@ -1,12 +1,14 @@
 <main class="h-alert">
   <!-- 標題名稱 -->
   <section>
-    <div class="title">{{ viewModel.title }}</div>
+    <div class="title">{{ viewModel.title | translate }}</div>
   </section>
 
   <!-- 提示資訊 -->
   <section>
-    <div class="message">{{ viewModel.message }}</div>
+    <ng-container *ngFor="let message of viewModel.messageList">
+      <div class="message">{{ message | translate }}</div>
+    </ng-container>
   </section>
 
   <!-- 確定 取消 -->

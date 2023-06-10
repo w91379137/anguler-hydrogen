@@ -32,31 +32,31 @@ export class MessageBoxService {
 
   showAlertSuccessError(
     isSuccess: boolean,
-    successMessage: string,
-    warningMessage: string): Observable<AlertViewModel | undefined> {
+    successMessage: string | string[],
+    warningMessage: string | string[]): Observable<AlertViewModel | undefined> {
       return isSuccess ? this.showAlertSuccess(successMessage) : this.showAlertError(warningMessage)
   }
 
-  showAlertSuccess(message: string): Observable<AlertViewModel | undefined> {
+  showAlertSuccess(message: string | string[]): Observable<AlertViewModel | undefined> {
     let vm = new AlertViewModel()
     vm.title = AlertTitle.Success
-    vm.message = message
+    vm.messageList = Array.isArray(message) ? message : [message]
     vm.mode = AlertButtonMode.onlyyes
     return this.showAlert(vm);
   }
 
-  showAlertWarning(message: string): Observable<AlertViewModel | undefined> {
+  showAlertWarning(message: string | string[]): Observable<AlertViewModel | undefined> {
     let vm = new AlertViewModel()
     vm.title = AlertTitle.Warning
-    vm.message = message
+    vm.messageList = Array.isArray(message) ? message : [message]
     vm.mode = AlertButtonMode.yesno
     return this.showAlert(vm);
   }
 
-  showAlertError(message: string): Observable<AlertViewModel | undefined> {
+  showAlertError(message: string | string[]): Observable<AlertViewModel | undefined> {
     let vm = new AlertViewModel()
     vm.title = AlertTitle.Error
-    vm.message = message
+    vm.messageList = Array.isArray(message) ? message : [message]
     vm.mode = AlertButtonMode.onlyyes
     return this.showAlert(vm);
   }

@@ -1,8 +1,8 @@
 
 export enum AlertTitle {
-  Success = '成功',
-  Warning = '警告',
-  Error = '錯誤',
+  Success = 'Success',
+  Warning = 'Warning',
+  Error = 'Error',
 }
 
 export enum AlertButtonMode {
@@ -19,7 +19,15 @@ export class AlertViewModel {
   title: string = AlertTitle.Warning
 
   /** 提示 */
-  message = ''
+  messageList: string[] = []
+
+  // 舊版的接口 以前只有一個 message
+  set message(value: string) {
+    this.messageList = [value]
+  }
+  get message(): string {
+    return this.messageList[0] || ''
+  }
 
   /** 按鈕控制 */
   mode = AlertButtonMode.yesno
