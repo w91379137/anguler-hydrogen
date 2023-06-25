@@ -1,8 +1,8 @@
 
 export enum AlertTitle {
-  Success = 'Success',
-  Warning = 'Warning',
-  Error = 'Error',
+  Success = 'Common.Success',
+  Warning = 'Common.Warning',
+  Error = 'Common.Error',
 }
 
 export enum AlertButtonMode {
