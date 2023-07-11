@@ -19,10 +19,18 @@ export class PointFmtPipe implements PipeTransform {
       return ''
     }
 
+    let result = ''
     if (isCompact) {
-      return formatter.format(value / BasePointDivisor)
+      result = formatter.format(value / BasePointDivisor)
     }
-    return (value / DefaultBasePointDivisor).toLocaleString();
+    else {
+      result = (value / DefaultBasePointDivisor).toLocaleString()
+    }
+
+    if (result === '-0') {
+      result = '0'
+    }
+    return result
   }
 
 }
