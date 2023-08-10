@@ -31,16 +31,18 @@ export class ApiService {
 
     let res = new ApiResponse()
     res.body = data
+    res.isError = data['isError']
     return res;
   }
 
-  private handleError(error: any): Promise<ApiResponse> {
+  private handleError(error: any): Promise<Object> {
     console.log('Api error', error);
 
-    let res = new ApiResponse()
-    res.isError = true
-    res.error = error
+    let result = {
+      isError: true,
+      error: error,
+    }
 
-    return Promise.resolve(res);
+    return Promise.resolve(result);
   }
 }
