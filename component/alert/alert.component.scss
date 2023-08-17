@@ -46,10 +46,11 @@ section {
     background: var(--gradient-second--multi, black);
     border: $btn-border;
     border-radius: $btn-border-radius;
-    color: var(--second-light);
-    text-shadow: 0 0 2px white;
+    color: var(--light);
+    text-shadow: 1px 1px 2px var(--second-deep), 1px 1px 4px var(--second-deep);
     box-shadow: 1px 1px 2px var(--second-deep);
     font-size: 0.8rem;
+    font-weight: bolder;
     text-align: center;
     flex: 1 1 auto;
     margin: 0 2px;
