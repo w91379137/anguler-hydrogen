@@ -1,22 +1,18 @@
 <ng-container *ngIf="viewModel">
-  <div
-    #marqueeBox
-    name="marqueeBox"
-    class="marquee-box"
-  >
-  <div
-    #marqueeContent
-    name="marqueeContent"
-    class="marquee marquee-animation"
-    [ngStyle]="{
-      'animation-name': viewModel.animationName,
-      'animation-duration': viewModel.animationDuration
-    }"
-  >
-    {{ viewModel.current }}
-  </div>
+  <div #marqueeBox name="marqueeBox" class="marquee-box">
+    <div
+      #marqueeContent
+      name="marqueeContent"
+      class="marquee marquee-animation"
+      [ngStyle]="{
+        'animation-name': viewModel.animationName,
+        'animation-duration': viewModel.animationDuration
+      }"
+    >
+      {{ viewModel.current }}
+    </div>
 
-  <!-- 佔有高度的透明文字 -->
-  <div style="opacity: 0; font-size: 0.5rem">/</div>
-</div>
+    <!-- 佔有高度的透明文字 -->
+    <div style="opacity: 0; font-size: 0.7rem">/</div>
+  </div>
 </ng-container>
