@@ -23,7 +23,7 @@ export class BannerViewModel {
   default = emptyImage;
 
   /** 候選列表 */
-  list = [];
+  list: string[] = [];
 
   // ====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====.====
   // action

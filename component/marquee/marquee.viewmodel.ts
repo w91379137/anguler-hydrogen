@@ -41,5 +41,5 @@ export class MarqueeViewModel {
   current = '';
 
   /** 等待內容 */
-  list = [];
+  list: string[] = [];
 }
